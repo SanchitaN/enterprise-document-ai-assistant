@@ -33,8 +33,14 @@ export default function LoginForm() {
       });
 
       navigate("/dashboard");
-    } catch (err) {
-      setError("Invalid username or password.");
+    } catch (err: any) {
+        console.log("Login Error:", err);
+        console.log("Response:", err.response);
+        console.log("Data:", err.response?.data);
+
+        setError(
+          err.response?.data?.detail || "Login failed."
+        );
     } finally {
       setLoading(false);
     }

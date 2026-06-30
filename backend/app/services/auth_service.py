@@ -44,6 +44,9 @@ def login_user(
     email: str,
     password: str,
 ):
+    print("=" * 50)
+    print("EMAIL RECEIVED:", repr(email))
+    print("PASSWORD RECEIVED:", repr(password))
 
     user = (
         db.query(User)
@@ -51,22 +54,35 @@ def login_user(
         .first()
     )
 
+    print("USER FOUND:", user)
+
     if not user:
+        print("FAILED: USER NOT FOUND")
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=401,
             detail="Invalid email or password",
         )
 
-    if not verify_password(password, user.hashed_password):
+    print("HASH IN DB:", user.hashed_password)
+
+    password_ok = verify_password(
+        password,
+        user.hashed_password,
+    )
+
+    print("PASSWORD CHECK:", password_ok)
+
+    if not password_ok:
+        print("FAILED: PASSWORD INCORRECT")
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=401,
             detail="Invalid email or password",
         )
+
+    print("LOGIN SUCCESS")
 
     access_token = create_access_token(
-        {
-            "sub": user.email,
-        }
+        {"sub": user.email}
     )
 
     return {
