@@ -32,3 +32,7 @@ Thumbs.db
 
 node_modules/
 frontend/node_modules/
+
+
+storage/uploads/*
+!storage/uploads/.gitkeep
