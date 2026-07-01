@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import documentService from "../services/documentService";
 import type { Document } from "../types/document";
+import toast from "react-hot-toast";
 
 export function useDocuments() {
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -31,7 +32,7 @@ export function useDocuments() {
 
       await loadDocuments();
     } catch {
-      setError("Upload failed.");
+      toast.error("Upload failed.");
     } finally {
       setUploading(false);
     }
@@ -61,3 +62,7 @@ export function useDocuments() {
     refresh: loadDocuments,
   };
 }
+
+toast.success("Document uploaded successfully!");
+toast.success("Document deleted.");
+toast.error("Unable to generate answer.");

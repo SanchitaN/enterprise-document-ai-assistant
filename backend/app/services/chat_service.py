@@ -10,20 +10,43 @@ class ChatService:
         self.vector_store = VectorStore()
         self.llm = LLMService()
 
-    def ask(self, question: str):
+    def ask(
+    self,
+    question: str,
+    document_id: int,
+    ):
 
         query_embedding = self.embedding_service.embed_texts(
             [question]
         )
 
-        results = self.vector_store.search(query_embedding)
-        print("=" * 50)
-        print("Retrieved Results:")
-        print(results)
-        print("=" * 50)
+        results = self.vector_store.search(
+            query_embedding,
+            top_k=20,
+        )
+
+        results = [
+            chunk
+            for chunk in results
+            if chunk.document_id == document_id
+        ]
+
+        if len(results) == 0:
+            return (
+                "No relevant information was found in the selected document.",
+                [],
+            )
+        
         context = [
             item.text
             for item in results
+        ]
+
+
+        results = [
+        chunk
+        for chunk in results
+        if chunk.document_id == document_id
         ]
 
         answer = self.llm.generate_answer(

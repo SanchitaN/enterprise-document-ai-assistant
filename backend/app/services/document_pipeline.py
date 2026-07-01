@@ -27,11 +27,19 @@ class DocumentPipeline:
             document.status = "processing"
 
             text = self.processor.process_document(file_path)
+            if not text.strip():
+                raise ValueError(
+                    "No extractable text found in the document."
+                )
             
             from app.models.chunk_metadata import ChunkMetadata
 
             chunks = self.chunker.split_text(text)
-
+            if not chunks:
+                raise ValueError(
+                    "No text could be extracted from this PDF."
+                )
+            
             metadata = []
 
             for i, chunk in enumerate(chunks):
@@ -46,7 +54,9 @@ class DocumentPipeline:
                 )
 
             embeddings = self.embedding_service.embed_texts(chunks)
+            
 
+        
             self.vector_store.add_embeddings(
                 embeddings,
                 metadata,

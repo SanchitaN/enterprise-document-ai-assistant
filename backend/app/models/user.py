@@ -21,4 +21,8 @@ class User(Base):
     back_populates="owner",
 )
 
-
+    conversations = relationship(
+    "Conversation",
+    back_populates="user",
+    cascade="all, delete-orphan",
+)

@@ -10,6 +10,7 @@ from app.models.document import Document
 from app.api.v1.documents import router as document_router
 from app.api.v1.chat import router as chat_router
 from fastapi.middleware.cors import CORSMiddleware
+from app.api.v1.conversations import router as conversations_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -32,6 +33,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(document_router)
 app.include_router(chat_router)
+app.include_router(conversations_router)
 
 @app.get("/")
 def root():

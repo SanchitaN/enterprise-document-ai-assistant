@@ -27,9 +27,14 @@ class VectorStore:
             self.documents = []
 
     def add_embeddings(self, embeddings, chunk_metadata):
-        self.index.add(
-            embeddings.astype(np.float32)
-        )
+        import numpy as np
+
+        embeddings = np.asarray(embeddings, dtype=np.float32)
+
+        if embeddings.ndim == 1:
+            embeddings = embeddings.reshape(1, -1)
+
+        self.index.add(embeddings)
 
         self.documents.extend(chunk_metadata)
         self.save()
@@ -46,10 +51,10 @@ class VectorStore:
                 f,
             )
 
-    def search(self, query_embedding, k=5):
+    def search(self, query_embedding, top_k=20):
         scores, indices = self.index.search(
             query_embedding.astype(np.float32),
-            k,
+            k=top_k,
         )
 
         results = []

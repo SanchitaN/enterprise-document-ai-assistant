@@ -1,0 +1,30 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# Node
+node_modules/
+
+# Vite
+dist/
+
+# Storage
+backend/storage/uploads/*
+backend/storage/faiss_index/*
+!backend/storage/uploads/.gitkeep
+!backend/storage/faiss_index/.gitkeep
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

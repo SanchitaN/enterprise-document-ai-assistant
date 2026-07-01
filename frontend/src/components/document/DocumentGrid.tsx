@@ -3,10 +3,12 @@ import DocumentCard from "./DocumentCard";
 
 interface Props {
   documents: Document[];
+  onDelete?: (id: number) => void;
 }
 
 export default function DocumentGrid({
   documents,
+  onDelete,
 }: Props) {
   if (documents.length === 0) {
     return (
@@ -22,6 +24,7 @@ export default function DocumentGrid({
         <DocumentCard
           key={doc.id}
           document={doc}
+          onDelete={onDelete}
         />
       ))}
     </div>

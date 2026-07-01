@@ -1,5 +1,4 @@
 import DashboardLayout from "../components/layout/DashboardLayout";
-
 import UploadDropzone from "../components/document/UploadDropzone";
 import DocumentGrid from "../components/document/DocumentGrid";
 
@@ -11,20 +10,20 @@ export default function Documents() {
     loading,
     uploading,
     uploadDocument,
+    deleteDocument,
     error,
   } = useDocuments();
 
   return (
     <DashboardLayout>
       <div className="space-y-8">
-
         <div>
           <h1 className="text-3xl font-bold">
             Documents
           </h1>
 
           <p className="mt-2 text-gray-500">
-            Upload, organize and manage your AI knowledge base.
+            Upload and manage your AI knowledge base.
           </p>
         </div>
 
@@ -34,7 +33,7 @@ export default function Documents() {
         />
 
         {error && (
-          <div className="rounded-lg bg-red-50 p-4 text-red-700">
+          <div className="rounded-lg bg-red-100 p-4 text-red-700">
             {error}
           </div>
         )}
@@ -42,7 +41,10 @@ export default function Documents() {
         {loading ? (
           <p>Loading documents...</p>
         ) : (
-          <DocumentGrid documents={documents} />
+          <DocumentGrid
+            documents={documents}
+            onDelete={deleteDocument}
+          />
         )}
       </div>
     </DashboardLayout>
