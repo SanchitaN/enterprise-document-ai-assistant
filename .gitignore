@@ -28,3 +28,7 @@ backend/storage/faiss_index/*
 # OS
 .DS_Store
 Thumbs.db
+
+
+node_modules/
+frontend/node_modules/
